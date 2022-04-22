@@ -1,94 +1,61 @@
-import {
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { useCallback, useMemo, useState } from "react";
-import Results from "./components/Results";
-
-const questions = [
-  {
-    questionTitle: "How many developers are there in the world in 2021?",
-    answerOptions: [
-      { title: "26.8 million", isCorrect: true },
-      { title: "28.4 million", isCorrect: false },
-      { title: "32.7 million", isCorrect: false },
-      { title: "45.3 million", isCorrect: false },
-    ],
-  },
-  {
-    questionTitle: "When was JavaScript first released?",
-    answerOptions: [
-      { title: "April 31, 1996", isCorrect: false },
-      { title: "April 24, 1996", isCorrect: false },
-      { title: "December 4, 1995", isCorrect: true },
-      { title: "January 17, 2002", isCorrect: false },
-    ],
-  },
-];
+import { Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import Lottie from "lottie-react";
+import { useState } from "react";
+import react from "../assets/react.json";
+import Quiz from "./components/Quiz";
 
 export default function App() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [currentAnswer, setCurrentAnswer] = useState("0");
-  const [score, setScore] = useState(0);
+  const [startedQuiz, setStartedQuiz] = useState(false);
 
-  const finishedQuiz = useMemo(
-    () => currentQuestion === questions.length,
-    [currentQuestion]
-  );
-
-  const nextQuestion = useCallback(() => {
-    const correctAnswer =
-      questions[currentQuestion].answerOptions[Number(currentAnswer)].isCorrect;
-    if (correctAnswer) {
-      setScore((state) => state + 1);
-    }
-    setCurrentAnswer("0");
-    setCurrentQuestion((state) => state + 1);
-  }, [currentQuestion, currentAnswer]);
-
-  if (finishedQuiz) {
-    return <Results score={score} />;
+  if (startedQuiz) {
+    return <Quiz />;
   }
 
   return (
-    <Flex as="main" justifyContent="center" alignItems="center" minH="100vh">
-      <Flex w="80vw" flexDir="column">
-        <Heading as="h1">
-          Question {currentQuestion + 1}/{questions.length}
-        </Heading>
-        <Divider variant="dashed" mt={2} mb={6} />
-        <Text fontWeight="semibold" fontSize="xl" mb={32}>
-          {questions[currentQuestion].questionTitle}
-        </Text>
-        <RadioGroup value={currentAnswer} onChange={setCurrentAnswer}>
-          <Stack direction="column">
-            {questions[currentQuestion].answerOptions.map(
-              (answerOption, index) => (
-                <Radio value={String(index)} key={String(index)}>
-                  {answerOption.title}
-                </Radio>
-              )
-            )}
-          </Stack>
-        </RadioGroup>
+    <>
+      <Flex
+        as="main"
+        justifyContent="center"
+        alignItems="center"
+        minH="80vh"
+        flexDir="column"
+      >
+        <Heading>React Quiz</Heading>
+        <Lottie
+          animationData={react}
+          loop
+          style={{ width: "50vw", height: "50vh" }}
+        />
         <Button
-          onClick={nextQuestion}
-          colorScheme="blue"
-          w="max-content"
-          alignSelf="center"
+          onClick={() => setStartedQuiz(true)}
+          color="white"
+          bgColor="blue.500"
+          _hover={{
+            bgColor: "blue.600",
+          }}
           mt={8}
           px={12}
           py={6}
         >
-          Next
+          Start Quiz
         </Button>
       </Flex>
-    </Flex>
+      <Flex
+        as="footer"
+        justifyContent="center"
+        alignItems="center"
+        flexDir="column"
+        gap={4}
+      >
+        <Text>
+          Developed with
+          <span role="img">❤️</span>
+          by{" "}
+          <Link href="https://github.com/fellipeutaka" isExternal>
+            Fellipe Utaka
+          </Link>
+        </Text>
+      </Flex>
+    </>
   );
 }

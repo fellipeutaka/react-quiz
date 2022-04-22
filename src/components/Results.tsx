@@ -1,7 +1,7 @@
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import Lottie from "lottie-react";
 import { useState } from "react";
-import animation from "../../assets/animation.json";
+import firework from "../../assets/firework.json";
 
 type ResultsProps = {
   score: number;
@@ -30,12 +30,16 @@ export default function Results({ score }: ResultsProps) {
       <Heading as="h1">Congragulations!</Heading>
       <Heading as="h2">You got {score} answers right</Heading>
       <Lottie
-        animationData={animation}
+        animationData={firework}
         loop
         style={{ width: "50vw", height: "50vh" }}
       />
       <Button
-        colorScheme="blue"
+        color="white"
+        bgColor="blue.500"
+        _hover={{
+          bgColor: "blue.600",
+        }}
         onClick={getResults}
         isLoading={loading}
         px={12}
