@@ -39,6 +39,13 @@ const questions = [
   },
 ];
 
+const randomizedQuestions = questions.map(({ answerOptions }) =>
+  answerOptions
+    .map((option) => ({ option, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ option }) => option)
+);
+
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentAnswer, setCurrentAnswer] = useState("0");
@@ -51,25 +58,17 @@ export default function Quiz() {
     [currentQuestion]
   );
 
-  const randomizeQuestions = useMemo(
-    () =>
-      questions[currentQuestion].answerOptions
-        .map((answerOption) => ({ answerOption, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort),
-    [currentQuestion]
-  );
-
   const nextQuestion = useCallback(() => {
     controls.set("hidden");
-    const correctAnswer =
-      questions[currentQuestion].answerOptions[Number(currentAnswer)].isCorrect;
-    if (correctAnswer) {
+    const selectedAnswerIsCorrect =
+      randomizedQuestions[currentQuestion][Number(currentAnswer)].isCorrect;
+    if (selectedAnswerIsCorrect) {
       setScore((state) => state + 1);
     }
     setCurrentAnswer("0");
     setCurrentQuestion((state) => state + 1);
     controls.start("visible");
-  }, [currentQuestion, currentAnswer, controls]);
+  }, [currentQuestion, currentAnswer]);
 
   if (finishedQuiz) {
     return <Results score={score} />;
@@ -95,7 +94,7 @@ export default function Quiz() {
         </Text>
         <RadioGroup value={currentAnswer} onChange={setCurrentAnswer}>
           <Stack direction="column">
-            {randomizeQuestions.map(({ answerOption }, index) => (
+            {randomizedQuestions[currentQuestion].map((answerOption, index) => (
               <Radio value={String(index)} key={String(index)}>
                 {answerOption.title}
               </Radio>
