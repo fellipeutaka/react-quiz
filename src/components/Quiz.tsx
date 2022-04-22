@@ -51,6 +51,14 @@ export default function Quiz() {
     [currentQuestion]
   );
 
+  const randomizeQuestions = useMemo(
+    () =>
+      questions[currentQuestion].answerOptions
+        .map((answerOption) => ({ answerOption, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort),
+    [currentQuestion]
+  );
+
   const nextQuestion = useCallback(() => {
     controls.set("hidden");
     const correctAnswer =
@@ -87,13 +95,11 @@ export default function Quiz() {
         </Text>
         <RadioGroup value={currentAnswer} onChange={setCurrentAnswer}>
           <Stack direction="column">
-            {questions[currentQuestion].answerOptions.map(
-              (answerOption, index) => (
-                <Radio value={String(index)} key={String(index)}>
-                  {answerOption.title}
-                </Radio>
-              )
-            )}
+            {randomizeQuestions.map(({ answerOption }, index) => (
+              <Radio value={String(index)} key={String(index)}>
+                {answerOption.title}
+              </Radio>
+            ))}
           </Stack>
         </RadioGroup>
         <Button
