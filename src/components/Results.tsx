@@ -6,8 +6,8 @@ import firework from "../../assets/firework.json";
 
 const Container = motion(Flex);
 const containerVariants = {
-  visible: { opacity: 1, transition: { duration: 0.8 } },
-  hidden: { opacity: 0 },
+  visible: { opacity: 1, paddingTop: 0, transition: { duration: 0.8 } },
+  hidden: { paddingTop: 50, opacity: 0 },
 };
 
 type ResultsProps = {

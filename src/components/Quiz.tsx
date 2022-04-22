@@ -14,8 +14,8 @@ import Results from "./Results";
 
 const Container = motion(Flex);
 const containerVariants = {
-  visible: { opacity: 1, marginRight: 0, transition: { duration: 0.8 } },
-  hidden: { marginRight: 150, opacity: 0 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  hidden: { x: -150, opacity: 0 },
 };
 
 const questions = [

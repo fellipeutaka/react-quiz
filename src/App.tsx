@@ -10,7 +10,7 @@ const Footer = motion(Flex);
 
 const containerVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  hidden: { y: 30, opacity: 0 },
+  hidden: { y: 50, opacity: 0 },
 };
 
 export default function App() {
