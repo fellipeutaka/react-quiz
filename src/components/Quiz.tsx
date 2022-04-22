@@ -8,8 +8,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { motion, useAnimation } from "framer-motion";
 import { useCallback, useMemo, useState } from "react";
 import Results from "./Results";
+
+const Container = motion(Flex);
+const containerVariants = {
+  visible: { opacity: 1, marginRight: 0, transition: { duration: 0.8 } },
+  hidden: { marginRight: 150, opacity: 0 },
+};
 
 const questions = [
   {
@@ -36,6 +43,8 @@ export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentAnswer, setCurrentAnswer] = useState("0");
   const [score, setScore] = useState(0);
+  const controls = useAnimation();
+  controls.start("visible");
 
   const finishedQuiz = useMemo(
     () => currentQuestion === questions.length,
@@ -43,6 +52,7 @@ export default function Quiz() {
   );
 
   const nextQuestion = useCallback(() => {
+    controls.set("hidden");
     const correctAnswer =
       questions[currentQuestion].answerOptions[Number(currentAnswer)].isCorrect;
     if (correctAnswer) {
@@ -50,14 +60,23 @@ export default function Quiz() {
     }
     setCurrentAnswer("0");
     setCurrentQuestion((state) => state + 1);
-  }, [currentQuestion, currentAnswer]);
+    controls.start("visible");
+  }, [currentQuestion, currentAnswer, controls]);
 
   if (finishedQuiz) {
     return <Results score={score} />;
   }
 
   return (
-    <Flex as="main" justifyContent="center" alignItems="center" minH="100vh">
+    <Container
+      as="main"
+      justifyContent="center"
+      alignItems="center"
+      minH="100vh"
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
       <Flex w="80vw" flexDir="column">
         <Heading as="h1">
           Question {currentQuestion + 1}/{questions.length}
@@ -93,6 +112,6 @@ export default function Quiz() {
           Next
         </Button>
       </Flex>
-    </Flex>
+    </Container>
   );
 }

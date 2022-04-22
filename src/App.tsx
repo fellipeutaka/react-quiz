@@ -1,8 +1,17 @@
 import { Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import react from "../assets/react.json";
 import Quiz from "./components/Quiz";
+
+const Container = motion(Flex);
+const Footer = motion(Flex);
+
+const containerVariants = {
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  hidden: { y: 30, opacity: 0 },
+};
 
 export default function App() {
   const [startedQuiz, setStartedQuiz] = useState(false);
@@ -13,12 +22,15 @@ export default function App() {
 
   return (
     <>
-      <Flex
+      <Container
         as="main"
         justifyContent="center"
         alignItems="center"
         minH="80vh"
         flexDir="column"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <Heading>React Quiz</Heading>
         <Lottie
@@ -39,13 +51,16 @@ export default function App() {
         >
           Start Quiz
         </Button>
-      </Flex>
-      <Flex
+      </Container>
+      <Footer
         as="footer"
         justifyContent="center"
         alignItems="center"
         flexDir="column"
         gap={4}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <Text>
           Developed with
@@ -55,7 +70,7 @@ export default function App() {
             Fellipe Utaka
           </Link>
         </Text>
-      </Flex>
+      </Footer>
     </>
   );
 }
