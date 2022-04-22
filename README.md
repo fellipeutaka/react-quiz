@@ -6,7 +6,7 @@
 ![Bitbucket open issues](https://img.shields.io/bitbucket/issues/fellipeutaka/react-quiz?style=for-the-badge)
 ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/fellipeutaka/react-quiz?style=for-the-badge)
 
-<img src="./doc/demo.gif" alt="Demo GIF">
+[Demo](https://user-images.githubusercontent.com/68625746/164643409-39c3c789-a721-4be7-b2e4-4499e1ce672d.mp4)
 
 ## 🛠 Technologies Used
 
